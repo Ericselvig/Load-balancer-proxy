@@ -11,7 +11,7 @@ interface ILoadBalancer {
     /// ERRORS ///
     //////////////
 
-    error LoadBalacner__ImplementationNotFound();
+    error LoadBalancer__ImplementationNotFound();
     error LoadBalancer__DelegateCallError();
 
     /////////////////

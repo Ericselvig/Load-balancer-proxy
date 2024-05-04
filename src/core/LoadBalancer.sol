@@ -47,7 +47,7 @@ contract LoadBalancer is ILoadBalancer {
         (uint256 id, bytes memory data) = abi.decode(_data, (uint256, bytes));
         address implementation = LibLoadBalancer.getImplementationAddress(id);
         if (implementation == address(0)) {
-            revert LoadBalacner__ImplementationNotFound();
+            revert LoadBalancer__ImplementationNotFound();
         }
         return _delegate(implementation, data);
     }

@@ -74,8 +74,6 @@ library LibStaking {
         SafeERC20.safeTransfer(IERC20(ds.asset), msg.sender, _amount);
     }
 
-    function collectFee() internal {}
-
     function _calculateReward(address _user) internal {}
 
     function getStakedAmount(address _user) internal view returns (uint256) {

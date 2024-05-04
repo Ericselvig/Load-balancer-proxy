@@ -74,7 +74,21 @@ library LibStaking {
         SafeERC20.safeTransfer(IERC20(ds.asset), msg.sender, _amount);
     }
 
-    function _calculateReward(address _user) internal {}
+    function collectRewards() internal {
+        Storage storage ds = getStorage();
+        _calculateReward(msg.sender);
+        uint256 reward = ds.rewards[msg.sender];
+        ds.rewards[msg.sender] = 0;
+        SafeERC20.safeTransfer(IERC20(ds.asset), msg.sender, reward);
+    }
+
+    function _calculateReward(address _user) internal {
+        Storage storage ds = getStorage();
+        uint256 time = block.timestamp - ds.lastUpdated[_user];
+        uint256 reward = (ds.staked[_user] * time) / 10000; // example reward calculation
+        ds.rewards[_user] += reward;
+        ds.lastUpdated[_user] = block.timestamp;
+    }
 
     function getStakedAmount(address _user) internal view returns (uint256) {
         Storage storage ds = getStorage();

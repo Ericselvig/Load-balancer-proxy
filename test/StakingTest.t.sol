@@ -38,7 +38,7 @@ contract StakingTest is Test {
         if (!ok) {
             revert();
         }
-
+        vm.stopPrank();
         bytes memory data = abi.encodeWithSignature("getStakedAmount(address)", alice);
         (bool success, bytes memory returndata) = address(lb).call(abi.encode(id, data));
         if (!success) {
@@ -48,11 +48,41 @@ contract StakingTest is Test {
         uint256 stakedAmount = abi.decode(returndata, (uint256));
         assertEq(stakedAmount, 1e18);
         assertEq(token.balanceOf(address(lb)), 1e18);
+        assertEq(token.balanceOf(alice), 9e18);
     }
 
-    function test_userCanUnstake() public {}
+    function test_userCanUnstake() public {
+        vm.startPrank(alice);
+        token.approve(address(lb), 1e18);
+        uint256 id = 1;
+        bytes memory payload = abi.encodeWithSignature("stake(uint256)", 1e18);
+        (bool ok, ) = address(lb).call(abi.encode(id, payload));
+        if (!ok) {
+            revert();
+        }
+        payload = abi.encodeWithSignature("unstake(uint256)", 1e18);
+        (ok, ) = address(lb).call(abi.encode(id, payload));
+        vm.stopPrank();
 
-    //function test_userCan
+        assertEq(token.balanceOf(address(lb)), 0);
+        assertEq(token.balanceOf(alice), 10e18);
+    }
 
-    function test_ownerCanCollectFee() public {}
+    function test_userCanCollectRewards() public {
+        token.mint(address(lb), 1e18); // mint extra tokens to load balancer to distribute as rewards
+        vm.startPrank(alice);
+        token.approve(address(lb), 1e18);
+        uint256 id = 1;
+        bytes memory payload = abi.encodeWithSignature("stake(uint256)", 1e18);
+        (bool ok, ) = address(lb).call(abi.encode(id, payload));
+        if (!ok) {
+            revert();
+        }
+        vm.warp(100);
+        payload = abi.encodeWithSignature("collectRewards()");
+        (ok, ) = address(lb).call(abi.encode(id, payload));
+        vm.stopPrank();
+
+        assertEq(token.balanceOf(alice), 9e18 + 1e16); // 1e16 is the reward for 100 seconds
+    }
 }

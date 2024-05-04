@@ -34,6 +34,10 @@ contract Staking {
         LibStaking.unstake(_amount);
     }
 
+    function collectRewards() external {
+        LibStaking.collectRewards();
+    }
+
     /**
      * @notice Get the staked amount of the user
      * @param user The address of the user

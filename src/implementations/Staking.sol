@@ -4,10 +4,11 @@ pragma solidity 0.8.20;
 import {LibStaking} from "../libraries/LibStaking.sol";
 
 contract Staking {
-    constructor(address _asset) {
+
+    function initialize(address _asset) external {
         LibStaking.initialize(_asset);
     }
-    
+
     function stake(uint256 _amount) external {
         LibStaking.stake(_amount);
     }
@@ -18,5 +19,10 @@ contract Staking {
 
     function collectFee() external {
         LibStaking.collectFee();
+    }
+
+    function getStakedAmount(address user) external view returns (uint256) {
+        uint256 stakedAmount = LibStaking.getStakedAmount(user);
+        return stakedAmount;
     }
 }

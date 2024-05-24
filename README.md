@@ -1,4 +1,4 @@
-# Load Balancer Proxy [Wasserstoff: Task 2 (2024 Blockchain Interviews)]
+# Load Balancer Proxy
 
 ## Description
 This proeject implements a proxy contract that can be used to balance the load between multiple implementations such as Staking, Voting, etc. The proxy contract is responsible for routing the calls to the appropriate implementation contract.

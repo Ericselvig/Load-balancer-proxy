@@ -1,7 +1,7 @@
 # Load Balancer Proxy
 
 ## Description
-This proeject implements a proxy contract that can be used to balance the load between multiple implementations such as Staking, Voting, etc. The proxy contract is responsible for routing the calls to the appropriate implementation contract.
+This project implements a proxy contract that can be used to balance the load between multiple implementations such as Staking, Voting, etc. The proxy contract is responsible for routing the calls to the appropriate implementation contract.
 
 ## Design
 The project is divided into two main components:
@@ -13,7 +13,7 @@ The project is divided into two main components:
 2. **Owner**: The owner is the entity that deploys the proxy contract and has the ability to add/remove implementation contracts from the registry contract.
 
 ### Design Pattern
-This project is inspired from the Diamond proxy pattern. It has been modified such that instead of storing the function selectors mapped to their implementation contracts, the proxy contract uses a `implementation id` to determine which implementation contract to route the call to.
+This project is inspired by the Diamond proxy pattern. It has been modified such that instead of storing the function selectors mapped to their implementation contracts, the proxy contract uses an `implementation id` to determine which implementation contract to route the call to.
 
 ## Workflow
 1. **Deployment**: The owner deploys the Load Balancer contract.
